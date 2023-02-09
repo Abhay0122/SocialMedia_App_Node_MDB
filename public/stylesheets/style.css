@@ -1,18 +1,48 @@
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
 html,
-body{
+body {
   height: 100%;
   width: 100%;
+  overflow: hidden !important;
 }
 
 
-#main{
+#main {
   min-height: 100vh;
   width: 100vw;
+  overflow: hidden !important;
+}
+
+.siginPage {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+}
+
+.siginleft {
+  min-height: inherit;
+  width: 50vw;
+  background-image: url(/images/bgcimg.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.SignInForm {
+  min-height: inherit;
+  width: 50vw;
+  display: flex;
   padding: 5vw;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+}
+
+a {
+  text-decoration: none;
 }
