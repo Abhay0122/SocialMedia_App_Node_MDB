@@ -49,7 +49,9 @@ router.get('/Home', function (req, res, next) {
   res.render('Home', { title: "Facebook" });
 });
 
-
+router.get('/profile', function (req, res, next) {
+  // res.render('Home', { title: "Facebook" });
+});
 
 
 
