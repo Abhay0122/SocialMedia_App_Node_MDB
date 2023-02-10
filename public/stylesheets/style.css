@@ -51,3 +51,43 @@ a {
   background-color: #1060d8 !important;
 }
 
+/* profile_top */
+
+.profile_top{
+  height: 40vh;
+  width: 100vw;
+  display: flex;
+}
+
+.profile_top_left{
+  height: inherit;
+  width: 50vw;
+  background-color: aqua;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.profile_img{
+  height: 13vmax;
+  width: 13vmax;
+  background-color: red;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.profile_top_right{
+  height: inherit;
+  width: 50vw;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+
+
+
+
+
+

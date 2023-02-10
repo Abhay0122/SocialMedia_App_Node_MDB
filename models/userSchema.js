@@ -5,11 +5,13 @@ const userSchema = new mongoose.Schema({
   firstname: String,
   lastname: String,
   email: String,
+  username: String,
   password: String,
   dob: String,
   gender: String,
   phone: String,
   city: String,
+  about: String,
   avatar: {
     type: String,
     default: "dummy.png",
