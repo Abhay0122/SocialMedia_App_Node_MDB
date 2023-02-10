@@ -8,11 +8,11 @@ const LocalStrategy = require("passport-local");
 passport.use(User.createStrategy());
 
 router.get('/', function (req, res, next) {
-  res.render('signin', { title: "Facebook - signin or signup" });
+  res.render('signin', { title: "Socailmedia - signin or signup" });
 });
 
 router.get('/signup', function (req, res, next) {
-  res.render('signup', { title: "Facebook - signin or signup" });
+  res.render('signup', { title: "Socailmedia - signin or signup" });
 });
 
 // signup
@@ -46,11 +46,11 @@ router.post('/signin', passport.authenticate("local", {
 
 // Home
 router.get('/Home', function (req, res, next) {
-  res.render('Home', { title: "Facebook" });
+  res.render('Home', { title: "Socailmedia" });
 });
 
 router.get('/profile', function (req, res, next) {
-  // res.render('Home', { title: "Facebook" });
+  res.render('profile', { title: "Socailmedia | Profile" });
 });
 
 
