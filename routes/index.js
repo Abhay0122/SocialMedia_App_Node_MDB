@@ -72,7 +72,15 @@ router.get('/Home', isLoggedIn, function (req, res, next) {
 
 // profile
 router.get('/profile', isLoggedIn, function (req, res, next) {
-  res.render('profile', { title: "Socailmedia | Profile", user: req.user });
+  User.findById(req.user._id)
+    .populate("posts")
+    .then((user) => {
+      res.render('profile', { title: "Socailmedia | Profile", user: req.user, posts: user.posts, });
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+
 });
 
 // editprofile
@@ -313,9 +321,6 @@ router.get("/dislike/:id", isLoggedIn, function (req, res) {
       res.send(err);
     });
 });
-
-
-
 
 
 // ----------------------------------------Middleware-----------------------------------------
