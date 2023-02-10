@@ -20,7 +20,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/signup', function (req, res, next) {
-  res.render('signup', { title: "Socailmedia - signin or signup" });
+  res.render('signup', { title: "Socailmedia - signin or signup", });
 });
 
 // signup

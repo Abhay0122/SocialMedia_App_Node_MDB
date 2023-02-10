@@ -40,8 +40,8 @@
                     <h6>Gender:</h6>
                     <div class="row ps-4 mb-4">
                         <div class="profile-gender">
-                            <input <%=user.gender==='male' ? 'checked' : '' %> type="radio"
-                            name="gender" value="male" /> Male <input <%=user.gender==='female' ? 'checked' : '' %>
+                            <input <%= user.gender === 'male' ? 'checked' : '' %> type="radio"
+                            name="gender" value="male" /> Male <input <%= user.gender === 'female' ? 'checked' : '' %>
                             type="radio" name="gender" value="female" /> Female
                         </div>
                     </div>
