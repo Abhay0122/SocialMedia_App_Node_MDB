@@ -113,7 +113,36 @@ a {
   color: black;
 }
 
+/* Homepage */
 
+.Homepage{
+  min-height: 100vh;
+  width: 100vw;
+  padding: 2vw;
+}
+
+.postCard{
+  height: 25vmax;
+  width: 30vmax;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.card_head {
+  display: flex;
+  align-items: center;
+}
+
+.card_head img{
+  height: 3vmax;
+  width: 3vmax;
+  border-radius: 50%;
+  margin-right: 0.5vmax;
+}
+
+.card_head h5{
+  margin-top: 0.4vmax;
+}
 
 
 

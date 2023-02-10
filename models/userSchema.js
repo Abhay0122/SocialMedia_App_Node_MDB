@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "dummy.png",
   },
-  post: [],
+  posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "post" }],
   forgetPasswordToken: 0,
 });
 

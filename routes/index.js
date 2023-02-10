@@ -7,6 +7,7 @@ const nodemailer = require("nodemailer");
 const fs = require('fs');
 const path = require('path');
 const User = require("../models/userSchema");
+var Post = require("../models/postModel");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 
@@ -54,7 +55,19 @@ router.post('/signin', passport.authenticate("local", {
 
 // Home
 router.get('/Home', isLoggedIn, function (req, res, next) {
-  res.render('Home', { title: "Socailmedia" });
+  Post.find()
+    .populate("postedBy")
+    .then(function (posts) {
+      res.render("Home", {
+        title: "Socailmedia |" + req.user ? req.user.username : null,
+        isloggedin: req.user ? true : false,
+        user: req.user,
+        posts,
+      });
+    })
+    .catch(function (err) {
+      res.send(err);
+    });
 });
 
 // profile
@@ -226,6 +239,81 @@ router.post("/set-password/:id", function (req, res) {
     })
     .catch((err) => res.send(err));
 });
+
+// create-post
+
+router.get("/create-post", isLoggedIn, function (req, res) {
+  res.render("createpost", {
+    title: "Socailmedia | Create Post",
+    isloggedin: req.user ? true : false,
+    user: req.user,
+  });
+});
+
+router.post("/create-post", upload.single("multimedia"), function (req, res) {
+  const { title, content } = req.body;
+  const newpost = new Post({
+    title,
+    content,
+    multimedia: req.file.filename,
+    postedBy: req.user,
+  });
+
+  newpost
+    .save()
+    .then(function (createdpost) {
+      req.user.posts.push(createdpost);
+      req.user.save();
+      res.redirect("/Home");
+    })
+    .catch(function (err) {
+      res.send(err);
+    });
+});
+
+
+router.get("/like/:id", isLoggedIn, function (req, res) {
+  Post.findById(req.params.id)
+    .then(function (likedpost) {
+      if (likedpost.dislikes.includes(req.user._id)) {
+        const idx = likedpost.dislikes.findIndex(function (id) {
+          return req.user._id === id;
+        });
+        likedpost.dislikes.splice(idx, 1);
+      }
+
+      if (!likedpost.likes.includes(req.user._id)) {
+        likedpost.likes.push(req.user);
+      }
+      likedpost.save();
+      res.redirect("/Home");
+    })
+    .catch(function (err) {
+      res.send(err);
+    });
+});
+
+router.get("/dislike/:id", isLoggedIn, function (req, res) {
+  Post.findById(req.params.id)
+    .then(function (dislikedpost) {
+      if (dislikedpost.likes.includes(req.user._id)) {
+        const idx = dislikedpost.likes.findIndex(function (id) {
+          return req.user._id === id;
+        });
+        dislikedpost.likes.splice(idx, 1);
+      }
+
+      if (!dislikedpost.dislikes.includes(req.user._id)) {
+        dislikedpost.dislikes.push(req.user);
+      }
+      dislikedpost.save();
+      res.redirect("/Home");
+    })
+    .catch(function (err) {
+      res.send(err);
+    });
+});
+
 
 
 
