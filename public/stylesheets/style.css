@@ -89,7 +89,29 @@ a {
   flex-direction: column;
 }
 
+.reset-page{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
 
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.addpost i{
+  font-size: 3vmax;
+  color: white;
+  margin-right: 1vmax;
+}
+
+.addpost i:hover{
+  color: black;
+}
 
 
 

@@ -7,7 +7,8 @@
             <h1>Edit profile</h1>
             <div class="editprofileform mt-4">
                 <form action="/profileimage" class="mb-4" method="post" enctype="multipart/form-data">
-                    <img height="100" width="100" class="previewImg me-3 rounded-circle" src="/assets/<%= user.avatar%>" alt="">
+                    <img height="100" width="100" class="previewImg me-3 rounded-circle" src="/assets/<%= user.avatar%>"
+                        alt="">
                     <input type="file" name="avatar" class="uploadfile">
                     <input type="hidden" name="oldavatar" value="<%= user.avatar%>">
                     <button class="btn btn-danger">Upload image</button>
@@ -55,7 +56,18 @@
                     <button type="submit" class="btn btn-primary">Update profile</button>
                 </form>
             </div>
-
+            <!-- delete account -->
+            <div class="delete-account mt-4 mb-3">
+                <a class="text-danger" href="/delete-account">Delete account</a>
+            </div>
+            <!-- reset password -->
+            <div class="reset-password mb-3">
+                <a class="text-danger " href="/reset-password">Reset password</a>
+            </div>
+            <!-- reset password -->
+            <div class="signout-user mb-3">
+                <a class="text-danger" href="/signout">Logout</a>
+            </div>
         </div>
 
         <!--  -->

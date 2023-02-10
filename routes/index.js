@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var upload = require("../utils/multer");
 
+const nodemailer = require("nodemailer");
+
 const fs = require('fs');
 const path = require('path');
 const User = require("../models/userSchema");
@@ -99,16 +101,132 @@ router.post('/profileimage', isLoggedIn, upload.single('avatar'), function (req,
 
 router.post('/userinfo', isLoggedIn, function (req, res, next) {
 
-  User.findByIdAndUpdate(req.user._id, req.body )  
-  .then((updatedData)=>{
-    // res.json(updatedData);
-    res.redirect('/profile')
-  })
-  .catch((err)=>{
-    res.send(err);
-  })
+  User.findByIdAndUpdate(req.user._id, req.body)
+    .then((updatedData) => {
+      // res.json(updatedData);
+      res.redirect('/profile')
+    })
+    .catch((err) => {
+      res.send(err);
+    })
 
 });
+
+// reset-password
+router.get("/reset-password", isLoggedIn, function (req, res, next) {
+  res.render('Resetpwd', { title: "Socailmedia | Reset-password", user: req.user })
+});
+
+router.post('/reset-password', isLoggedIn, function (req, res, next) {
+
+  const { oldPassword, newPassword } = req.body;
+
+  req.user.changePassword(oldPassword, newPassword, function (err, user) {
+    if (err) return res.send(err);
+    res.redirect('/signout');
+  });
+
+});
+
+// logout
+router.get("/signout", isLoggedIn, function (req, res, next) {
+  req.logout(function () {
+    res.redirect("/");
+  });
+});
+
+// delete-account
+router.get('/delete-account', isLoggedIn, function (req, res, next) {
+
+  User.findByIdAndDelete(req.user._id)
+    .then(() => {
+      res.redirect('/signout');
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+
+});
+
+// Forget-password
+router.get("/forget-password", function (req, res, next) {
+  res.render('Forgetpwd', { title: "Socailmedia | Forget-password", user: req.user })
+});
+
+router.post("/forget-password", function (req, res, next) {
+  User.findOne({ email: req.body.email })
+    .then((user) => {
+      if (!user)
+        return res.send(
+          "User Not found <a href='/forget-password'>Try Harder!</a>"
+        );
+
+      // next page url
+      const pageurl =
+        req.protocol +
+        "://" +
+        req.get("host") +
+        "/set-password/" +
+        user._id;
+
+      // send email to the email with gmail
+      const transport = nodemailer.createTransport({
+        service: "gmail",
+        host: "smtp.gmail.com",
+        port: 465,
+        auth: {
+          user: "developerabhay934@gmail.com",
+          pass: "lvigqviuvqorxrpu",
+        },
+      });
+
+      const mailOptions = {
+        from: "Abhay Pvt. Ltd.<developerabhay934@gmail.com>",
+        to: req.body.email,
+        subject: "Password Reset Link",
+        text: "Do not share this link to anyone.",
+        html: `<a href=${pageurl}>Password Reset Link</a>`,
+      };
+
+      transport.sendMail(mailOptions, (err, info) => {
+        if (err) return res.send(err);
+        console.log(info);
+        user.forgetPasswordToken = 1;
+        user.save();
+        return res.send(
+          "<h1 style='text-align:center;color: tomato; margin-top:10%'><span style='font-size:60px;'>✔️</span> <br />Email Sent! Check your inbox , <br/>check spam in case not found in inbox.</h1>"
+        );
+      });
+      // ------------------------------
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+});
+
+router.get("/set-password/:id", function (req, res, next) {
+  res.render('setpassword', { title: "Socailmedia | Forget-password", id: req.params.id })
+});
+
+router.post("/set-password/:id", function (req, res) {
+  User.findById(req.params.id)
+    .then((user) => {
+      if (user.forgetPasswordToken === 1) {
+        user.setPassword(req.body.password, function (err) {
+          if (err) return res.send(err);
+          user.forgetPasswordToken = 0;
+          user.save();
+          res.redirect("/signout");
+        });
+      } else {
+        res.send(
+          "Link Expired! <a href='/forget-password'>Try Again.</a>"
+        );
+      }
+    })
+    .catch((err) => res.send(err));
+});
+
 
 
 

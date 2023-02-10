@@ -16,7 +16,8 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "dummy.png",
   },
-  post: []
+  post: [],
+  forgetPasswordToken: 0,
 });
 
 userSchema.plugin(plm, { usernameField: "email" });
