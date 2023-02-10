@@ -66,7 +66,7 @@ router.get('/editprofile', isLoggedIn, function (req, res, next) {
   res.render('editprofile', { title: "Socailmedia | Edit-profile", user: req.user });
 });
 
-// /profileimage
+// profileimage
 
 router.post('/profileimage', isLoggedIn, upload.single('avatar'), function (req, res, next) {
 
@@ -92,6 +92,21 @@ router.post('/profileimage', isLoggedIn, upload.single('avatar'), function (req,
       res.redirect("/profile");
     })
     .catch((err) => res.send(err));
+
+});
+
+// userinfo
+
+router.post('/userinfo', isLoggedIn, function (req, res, next) {
+
+  User.findByIdAndUpdate(req.user._id, req.body )  
+  .then((updatedData)=>{
+    // res.json(updatedData);
+    res.redirect('/profile')
+  })
+  .catch((err)=>{
+    res.send(err);
+  })
 
 });
 

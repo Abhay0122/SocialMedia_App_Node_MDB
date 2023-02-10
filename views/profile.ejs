@@ -3,16 +3,25 @@
     <%- include('./Partials/nav')%>
         <!--  -->
 
-        <div class="siginPage">
+        <div class="ProfilePage">
             <div class="profile_top">
                 <div class="profile_top_left">
-                    <div class="profile_img" style="background-image: url('/assets/<%= user.avatar%>'); background-position: center; background-repeat: no-repeat; background-size: cover;"></div>
+                    <div class="profile_img"
+                        style="background-image: url('/assets/<%= user.avatar%>'); background-position: center; background-repeat: no-repeat; background-size: cover;">
+                    </div>
                 </div>
                 <div class="profile_top_right">
-                    <h1><%= user.firstname%> <%= user.lastname%></h1>
-                    <h5><%= user.username%></h5>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. In, consequuntur!</p>
-                    <a href="/editprofile">Edit profile</a>
+                    <h1>
+                        <%= user.firstname%>
+                            <%= user.lastname%>
+                    </h1>
+                    <h5>
+                        <%= user.username%>
+                    </h5>
+                    <p>
+                        <%= user.about%>
+                    </p>
+                    <a class="btn btn-outline-danger" href="/editprofile">Edit profile</a>
                 </div>
             </div>
             <hr>
